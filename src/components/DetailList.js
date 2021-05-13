@@ -67,12 +67,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DetailList() {
+export default function DetailList(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleChangePage = (event, newPage) => {
+    console.log("haha", props);
     setPage(newPage);
   };
 
