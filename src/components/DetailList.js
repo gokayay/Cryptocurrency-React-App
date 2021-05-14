@@ -8,6 +8,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import SearchBar from "material-ui-search-bar";
+
 
 const columns = [
   {id: 'rank', label: 'rank'},
@@ -33,9 +35,11 @@ export default function DetailList(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [searched, setSearched] = React.useState("");
+  let tableData = props.value.data;
+
 
   const handleChangePage = (event, newPage) => {
-    console.log("haha", props.value.data);
     setPage(newPage);
   };
 
@@ -44,8 +48,30 @@ export default function DetailList(props) {
     setPage(0);
   };
 
+  const requestSearch = (searchedVal) => {
+    const filteredRows = props?.value?.data?.filter((row) => {
+      return row.name.toLowerCase().includes(searchedVal.toLowerCase());
+    });
+  setRows(filteredRows);
+};
+
+const cancelSearch = () => {
+  setSearched("");
+  requestSearch(searched);
+};
+
+const setRows = (rows) => {
+  tableData = rows;
+  return rows;
+}
+
   return (
     <Paper className={classes.root}>
+        <SearchBar
+    value={searched}
+    onChange={(searchVal) => requestSearch(searchVal)}
+    onCancelSearch={() => cancelSearch()}
+  />
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -62,7 +88,7 @@ export default function DetailList(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props?.value?.data?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+            {tableData?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                   {columns.map((column) => {
