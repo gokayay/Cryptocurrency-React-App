@@ -9,6 +9,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import SearchBar from "material-ui-search-bar";
+import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
+import CryptoDetail from './CryptoDetail';
+
 
 
 const columns = [
@@ -19,7 +23,7 @@ const columns = [
     id: 'priceUsd',
     label: 'Exchange Rate',
     minWidth: 170,
-  },
+  }
 ];
 
 const useStyles = makeStyles({
@@ -31,12 +35,29 @@ const useStyles = makeStyles({
   },
 });
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 export default function DetailList(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searched, setSearched] = React.useState("");
   let tableData = props.value.data;
+  const [open, setOpen] = React.useState(false);
+  const [selectedRow, setSelectedRow] = React.useState("");
+
+  const handleClickOpen = (rowId) => {
+    if(rowId){
+      setSelectedRow(rowId);
+      setOpen(true);
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
 
   const handleChangePage = (event, newPage) => {
@@ -62,10 +83,16 @@ const cancelSearch = () => {
 
 const setRows = (rows) => {
   tableData = rows;
-  return rows;
+}
+
+const handleCallback = (childData) =>{
+  if(childData){
+      handleClose();
+  }
 }
 
   return (
+    <div>
     <Paper className={classes.root}>
         <SearchBar
     value={searched}
@@ -90,11 +117,11 @@ const setRows = (rows) => {
           <TableBody>
             {tableData?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                <TableRow hover role="checkbox" tabIndex={-1} key={row.code} onClick={()=>handleClickOpen(row.id)}>
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (
-                      <TableCell key={column.id} align={column.align}>
+                      <TableCell key={column.id} align={column.align} >
                         {column.format && typeof value === 'number' ? column.format(value) : value}
                       </TableCell>
                     );
@@ -108,12 +135,16 @@ const setRows = (rows) => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={props?.value?.data?.length}
+        count={tableData?.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
     </Paper>
+    <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+<CryptoDetail parentCallback = {handleCallback} selectedCoin={selectedRow}></CryptoDetail>
+</Dialog>
+</div>
   );
 }
