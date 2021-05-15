@@ -1,32 +1,23 @@
 import React from "react";
 import { Line } from 'react-chartjs-2';
 
-const data = {
-    labels: ['1', '2', '3', '4', '5', '6'],
-    datasets: [
-      {
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        fill: false,
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgba(255, 99, 132, 0.2)',
-      },
-    ],
-  };
-  
-  const options = {
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
-    },
-  };
+
+
 
 class LineChart extends React.Component {
+
+    data = {
+        labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+        datasets: [
+          {
+            label: '7 day change',
+            data: [12, 19, 3, 5, 2, 3, 20],
+            fill: false,
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgba(255, 99, 132, 0.2)',
+          },
+        ],
+      };
 
     constructor(props) {
         super(props);
@@ -42,9 +33,11 @@ class LineChart extends React.Component {
           .then(res => res.json())
           .then(
             (result) => {
+
+        
               this.setState({
                 isLoaded: true,
-                item: result
+                item: result?.data?.filter((element, index, arr) => index > arr.length - 8 )
               });
               console.log(this.state.item);
             },
@@ -60,7 +53,7 @@ class LineChart extends React.Component {
 
     render() {
       return <div><h1> LineChart</h1>
-      <Line data={data} options={options} /></div>
+      <Line data={this.data} /></div>
       ;
     }
   }
