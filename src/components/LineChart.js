@@ -1,9 +1,5 @@
 import React from "react";
 import { Line } from 'react-chartjs-2';
-
-
-
-
 class LineChart extends React.Component {
 
     constructor(props) {
@@ -27,7 +23,11 @@ class LineChart extends React.Component {
               });
               this.setState({
                 data: {
-                    labels: this.state?.item?.map(item => item.date),
+                    labels: this.state?.item?.map(item => {
+                        let date = new Date(item.date);
+                        let dateMDY = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+                        return dateMDY;
+                    }),
                     datasets: [
                       {
                         label: '7 day change',
@@ -51,8 +51,8 @@ class LineChart extends React.Component {
 
 
     render() {
-        return <div><h1> LineChart</h1>
-            <Line data={this.state?.data} /></div>;
+        return <div style = {{margin: '2rem'}}><h3>Change in the last 7 days </h3>
+        <Line data={this.state?.data} /></div>;
     }
   }
 
