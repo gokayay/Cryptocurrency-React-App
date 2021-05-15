@@ -33,7 +33,7 @@ class CryptoList extends React.Component {
 
   render() {
     return <div>
-    <h1>Hello, {this.state.isLoaded}</h1>
+    <h1>Cryptocurrencies {this.state.isLoaded}</h1>
     <br></br>
     <DetailList value={this.state.items}></DetailList>
     </div>;
