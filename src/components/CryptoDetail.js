@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import LinkIcon from '@material-ui/icons/Link';
+import LineChart from "./LineChart";
 class CryptoDetail extends React.Component {
 
     constructor(props) {
@@ -90,7 +91,10 @@ class CryptoDetail extends React.Component {
                 <ListItemText primary="Explore More" secondary={this.state?.item?.data?.explorer}/>
             </a>
         </ListItem>
-        </List></div>;
+        </List>
+        <br></br>
+        <LineChart selectedCoin= {this.props.selectedCoin}></LineChart>
+        </div>;
     }
 }
 
