@@ -52,7 +52,7 @@ class LineChart extends React.Component {
 
     render() {
         return <div style = {{margin: '2rem'}}><h3>Change in the last 7 days </h3>
-         <Line daxta={this.state?.data} /></div>;
+        <Line daxta={this.state?.data} /></div>;
     }
   }
 
