@@ -23,6 +23,8 @@ import {
 } from "@material-ui/core/colors";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import {Switch as Toggle} from '@material-ui/core';
+import CssBaseline from "@material-ui/core/CssBaseline";
+
  
 
 
@@ -58,6 +60,8 @@ function App() {
 
   return (
   <ThemeProvider theme={darkTheme}>
+    <div>
+    <CssBaseline />
     <Router>
       <div style={{ display: 'flex' }}>
         <Drawer
@@ -119,6 +123,7 @@ function App() {
         </Switch>
       </div>
     </Router>
+    </div>
   </ThemeProvider> 
   );
 }
