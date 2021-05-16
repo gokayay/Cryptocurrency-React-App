@@ -25,9 +25,6 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import {Switch as Toggle} from '@material-ui/core';
 import CssBaseline from "@material-ui/core/CssBaseline";
 
- 
-
-
 const useStyles = makeStyles((theme) => ({
   drawerPaper: { width: 'inherit' },
   link: {
