@@ -118,6 +118,7 @@ export default function DetailList(props) {
     });
   if(filteredRows){
     setTableData(filteredRows);
+    setPage(0);
   }
 };
 
