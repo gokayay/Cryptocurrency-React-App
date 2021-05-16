@@ -43,8 +43,11 @@ const useStyles = makeStyles({
     maxHeight: 700,
   },
   formControl:{
-    'display': 'flex',
+    display: 'flex',
     margin: '1rem'
+  },
+  tableRow:{
+    cursor: 'pointer'
   }
 });
 
@@ -168,7 +171,7 @@ const handleCallback = (childData) =>{
           <TableBody>
             {tableData?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code} onClick={()=>handleClickOpen(row.id)}>
+                <TableRow hover role="checkbox" className={classes.tableRow} tabIndex={-1} key={row.code} onClick={()=>handleClickOpen(row.id)}>
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (
