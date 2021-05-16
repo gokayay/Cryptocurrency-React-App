@@ -7,7 +7,8 @@ class CryptoList extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-      items: []
+      items: [],
+      rates: []
     };
   }
 
@@ -28,6 +29,23 @@ class CryptoList extends React.Component {
           });
         }
       )
+      fetch("https://api.coincap.io/v2/rates")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            rates: result
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+
   }
 
 
@@ -35,7 +53,7 @@ class CryptoList extends React.Component {
     return <div>
     <h1>Cryptocurrencies {this.state.isLoaded}</h1>
     <br></br>
-    <DetailList value={this.state.items}></DetailList>
+    <DetailList value={this.state.items} rates={this.state.rates}></DetailList>
     </div>;
   }
 }

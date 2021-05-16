@@ -21,7 +21,7 @@ const columns = [
   { id: 'symbol', label: 'Symbol', minWidth: 100 },
   {
     id: 'priceUsd',
-    label: 'Exchange Rate',
+    label: 'Exchange Rate ($)',
     minWidth: 170,
   }
 ];
