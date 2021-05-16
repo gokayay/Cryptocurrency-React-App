@@ -27,6 +27,11 @@ const columns = [
     id: 'priceUsd',
     label: 'Exchange Rate ($)',
     minWidth: 170,
+  },
+  {
+    id: 'changeRate',
+    label: 'Selected Rate Price',
+    minWidth: 170,
   }
 ];
 
@@ -57,11 +62,17 @@ export default function DetailList(props) {
   const [tableData, setTableData] = React.useState(props?.value?.data);
   const [rateData, setRateData] = React.useState(props?.rates?.data);
 
-
   const [rate, setRate] = React.useState('');
 
   const handleChange = (event) => {
     setRate(event.target.value);
+    const selectedRate = props?.value?.data?.map((row) => {
+      row.changeRate = row?.priceUsd / event?.target?.value ;
+      return row;
+    });
+    if(selectedRate){
+      setTableData(selectedRate);
+    }
   };
 
   React.useEffect(() => {
@@ -70,9 +81,8 @@ export default function DetailList(props) {
     }
   }, [props?.value?.data]);
 
-    React.useEffect(() => {
+  React.useEffect(() => {
     if (props?.rates?.data) {
-      debugger;
       setRateData(props?.rates?.data);
     }
   }, [props?.rates?.data]);
