@@ -44,9 +44,15 @@ export default function DetailList(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searched, setSearched] = React.useState("");
-  let tableData = props.value.data;
   const [open, setOpen] = React.useState(false);
   const [selectedRow, setSelectedRow] = React.useState("");
+  const [tableData, setTableData] = React.useState(props?.value?.data)
+
+  React.useEffect(() => {
+    if (props?.value?.data) {
+      setTableData(props?.value?.data);
+    }
+  }, [props?.value?.data])
 
   const handleClickOpen = (rowId) => {
     if(rowId){
@@ -73,7 +79,9 @@ export default function DetailList(props) {
     const filteredRows = props?.value?.data?.filter((row) => {
       return row.name.toLowerCase().includes(searchedVal.toLowerCase());
     });
-  setRows(filteredRows);
+  if(filteredRows){
+    setTableData(filteredRows);
+  }
 };
 
 const cancelSearch = () => {
@@ -81,9 +89,6 @@ const cancelSearch = () => {
   requestSearch(searched);
 };
 
-const setRows = (rows) => {
-  tableData = rows;
-}
 
 const handleCallback = (childData) =>{
   if(childData){
