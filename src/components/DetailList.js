@@ -12,6 +12,10 @@ import SearchBar from "material-ui-search-bar";
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import CryptoDetail from './CryptoDetail';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 
 
@@ -33,6 +37,10 @@ const useStyles = makeStyles({
   container: {
     maxHeight: 700,
   },
+  formControl:{
+    'display': 'flex',
+    margin: '1rem'
+  }
 });
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -46,13 +54,28 @@ export default function DetailList(props) {
   const [searched, setSearched] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [selectedRow, setSelectedRow] = React.useState("");
-  const [tableData, setTableData] = React.useState(props?.value?.data)
+  const [tableData, setTableData] = React.useState(props?.value?.data);
+  const [rateData, setRateData] = React.useState(props?.rates?.data);
+
+
+  const [rate, setRate] = React.useState('');
+
+  const handleChange = (event) => {
+    setRate(event.target.value);
+  };
 
   React.useEffect(() => {
     if (props?.value?.data) {
       setTableData(props?.value?.data);
     }
-  }, [props?.value?.data])
+  }, [props?.value?.data]);
+
+    React.useEffect(() => {
+    if (props?.rates?.data) {
+      debugger;
+      setRateData(props?.rates?.data);
+    }
+  }, [props?.rates?.data]);
 
   const handleClickOpen = (rowId) => {
     if(rowId){
@@ -76,6 +99,7 @@ export default function DetailList(props) {
   };
 
   const requestSearch = (searchedVal) => {
+    console.log(props);
     const filteredRows = props?.value?.data?.filter((row) => {
       return row.name.toLowerCase().includes(searchedVal.toLowerCase());
     });
@@ -99,6 +123,18 @@ const handleCallback = (childData) =>{
   return (
     <div>
     <Paper className={classes.root}>
+    <FormControl className={classes.formControl}>
+        <InputLabel>Rate</InputLabel>
+        <Select
+          value={rate}
+          onChange={handleChange}
+        >
+           {
+           rateData?.map((rate, index)=>
+            <MenuItem value={rate.rateUsd}  key={rate.id}>{rate.id}</MenuItem>
+          )} 
+        </Select>
+      </FormControl>
         <SearchBar
     value={searched}
     onChange={(searchVal) => requestSearch(searchVal)}
